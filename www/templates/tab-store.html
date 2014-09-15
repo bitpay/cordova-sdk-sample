@@ -1,0 +1,12 @@
+<ion-view title="Store">
+  <ion-content>
+    <ion-list>
+      <ion-item ng-repeat="product in products" type="item-text-wrap" href="#/tab/store/{{product.id}}">
+        {{product.name}}
+        <span class="item-note">
+          ${{product.price}}
+        </span>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

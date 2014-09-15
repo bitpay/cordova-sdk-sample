@@ -1,0 +1,20 @@
+<ion-view title="Cart">
+  <ion-content class="padding">
+    <h3 ng-hide="items">Your cart is empty</h3>
+    <ion-list>
+      <ion-item ng-repeat="item in items" type="item-text-wrap">
+        {{item.name}}
+        <span class="item-note">
+          ${{item.price}}
+        </span>
+      </ion-item>
+    </ion-list>
+    <h3 ng-show="items">Total: ${{total}}</h3>
+    <button class="button button-block button-positive" ng-show="items">
+      Checkout
+    </button>
+    <button class="button button-block button-stable" ng-show="items" ng-click="removeAll()">
+      Remove all
+    </button>
+  </ion-content>
+</ion-view>
