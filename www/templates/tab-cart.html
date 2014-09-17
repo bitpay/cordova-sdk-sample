@@ -9,11 +9,14 @@
         </span>
       </ion-item>
     </ion-list>
-    <h3 ng-show="items">Total: ${{total}}</h3>
-    <button class="button button-block button-positive" ng-show="items">
-      Checkout
-    </button>
-    <button class="button button-block button-stable" ng-show="items" ng-click="removeAll()">
+    <h3 ng-show="items" style="text-align: right;">Total: ${{total}}</h3>
+    <a class="button button-block button-positive ion-bag" ng-show="items" ng-click="webCheckout()">
+      Web Checkout
+    </a>
+    <a class="button button-block button-positive ion-bag" ng-show="items" ng-click="customCheckout()">
+      Custom Checkout
+    </a>
+    <button class="button button-block button-stable ion-close" ng-show="items" ng-click="removeAll()">
       Remove all
     </button>
   </ion-content>

@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'monospaced.qrcode'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -64,6 +64,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         'tab-cart': {
           templateUrl: 'templates/tab-cart.html',
           controller: 'CartCtrl'
+        }
+      }
+    })
+    .state('tab.cart-checkout', {
+      url: '/cart/checkout/:invoiceId',
+      views: {
+        'tab-cart': {
+          templateUrl: 'templates/cart-checkout.html',
+          controller: 'CheckoutCtrl'
         }
       }
     })

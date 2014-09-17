@@ -1,0 +1,15 @@
+<ion-view title="Checkout">
+  <ion-content class="padding">
+    <h2>{{invoice.merchant}}</h2>
+    <h3 style="text-align: center;">{{invoice.bitcoins}} BTC ~= {{invoice.amount}} {{invoice.currency}}</h3>
+    <a class="button button-block button-energized" hrfe="bitcoin://{{invoice.address}}">
+      Launch Wallet
+    </a>
+    <h4 style="text-align: center;">{{invoice.address}}</h4>
+    <div style="text-align:center">
+      <qrcode size="250"
+              data="bitcoin://{{invoice.address}}?amount={{invoice.bitcoins}}">
+      </qrcode>
+    </div>
+  </ion-content>
+</ion-view>

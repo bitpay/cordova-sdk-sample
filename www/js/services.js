@@ -28,11 +28,7 @@ angular.module('starter.services', [])
 })
 
 .factory('Cart', function() {
-  // Might use a resource here that returns a JSON array
-
-  // Some fake testing data
-  var items = [
-  ];
+  var items = [];
 
   return {
     all: function() {
@@ -53,6 +49,25 @@ angular.module('starter.services', [])
     },
     total: function() {
       return items.reduce(function(t, item) { return t + item.price; }, 0);
+    }
+  }
+})
+
+.factory('Invoices', function() {
+  var invoices = {};
+
+  return {
+    all: function() {
+      return Object.keys(invoices).map(function(key) { return invoices[key] })
+    },
+    save: function(invoice) {
+      return invoices[invoice.id] = invoice;
+    },
+    get: function(invoiceId) {
+      return invoices[invoiceId];
+    },
+    updateAll: function() {
+      return true;
     }
   }
 });
