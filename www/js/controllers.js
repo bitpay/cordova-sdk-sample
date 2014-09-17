@@ -89,6 +89,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('InvoiceCtrl', function($scope) {
-
+.controller('InvoiceCtrl', function($scope, Invoices) {
+  $scope.invoices = Invoices.all();
+  console.log(Invoices.all());
 });

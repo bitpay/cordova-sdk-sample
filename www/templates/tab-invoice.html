@@ -1,5 +1,13 @@
 <ion-view title="Invoices">
-  <ion-content class="padding">
-    <h3>You have no invoices yet</h3>
+  <ion-content>
+    <h3 ng-hide="invoices" class="padding">You have no invoices yet</h3>
+    <ion-list ng-show="invoices">
+      <ion-item ng-repeat="invoice in invoices" type="item-text-wrap">
+        #{{invoice.id}} - {{invoice.amount}}
+        <span class="item-note">
+          {{invoice.status}}
+        </span>
+      </ion-item>
+    </ion-list>
   </ion-content>
 </ion-view>
