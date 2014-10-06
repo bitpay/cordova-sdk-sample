@@ -3,9 +3,9 @@
     <h3 ng-hide="invoices" class="padding">You have no invoices yet</h3>
     <ion-list ng-show="invoices">
       <ion-item ng-repeat="invoice in invoices" type="item-text-wrap">
-        #{{invoice.id}} - {{invoice.amount}}
+        ${{invoice.data.price}} ({{invoice.data.btcPrice}} BTC)
         <span class="item-note">
-          {{invoice.status}}
+          {{invoice.data.status}}
         </span>
       </ion-item>
     </ion-list>

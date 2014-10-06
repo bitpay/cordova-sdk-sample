@@ -1,6 +1,6 @@
 {
   "name": "angular-qrcode",
-  "version": "4.0.0",
+  "version": "3.1.0",
   "main": "qrcode.js",
   "ignore": [
     "**/.*",
@@ -12,14 +12,13 @@
     "qrcode-generator": "git://github.com/monospaced/bower-qrcode-generator.git#0.0.0"
   },
   "homepage": "https://github.com/monospaced/angular-qrcode",
-  "_release": "4.0.0",
+  "_release": "3.1.0",
   "_resolution": {
     "type": "version",
-    "tag": "v4.0.0",
-    "commit": "abfcddfceedf05fd94ba522b8874a0ef7082211a"
+    "tag": "v3.1.0",
+    "commit": "29d8c3729aa554b4f73cc146b92aff3a83c97c99"
   },
   "_source": "git://github.com/monospaced/angular-qrcode.git",
-  "_target": "~4.0.0",
-  "_originalSource": "monospaced/angular-qrcode",
-  "_direct": true
+  "_target": "~3.1.0",
+  "_originalSource": "angular-qrcode"
 }

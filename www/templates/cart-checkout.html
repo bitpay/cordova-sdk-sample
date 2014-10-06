@@ -1,15 +1,12 @@
 <ion-view title="Checkout">
   <ion-content class="padding">
-    <h2>{{invoice.merchant}}</h2>
-    <h3 style="text-align: center;">{{invoice.bitcoins}} BTC ~= {{invoice.amount}} {{invoice.currency}}</h3>
-    <a class="button button-block button-energized" hrfe="bitcoin://{{invoice.address}}">
+    <h3 style="text-align: center;">{{invoice.data.btcPrice}} BTC ~= {{invoice.data.price}} {{invoice.data.currency}}</h3>
+    <a class="button button-block button-energized" ng-click="openWallet()">
       Launch Wallet
     </a>
-    <h4 style="text-align: center;">{{invoice.address}}</h4>
+    <h4 style="text-align: center;">Payment</h4>
     <div style="text-align:center">
-      <qrcode size="250"
-              data="bitcoin://{{invoice.address}}?amount={{invoice.bitcoins}}">
-      </qrcode>
+      <qrcode size="200" data="{{invoice.data.paymentUrls.BIP21}}"></qrcode>
     </div>
   </ion-content>
 </ion-view>

@@ -61,7 +61,8 @@ angular.module('starter.services', [])
       return Object.keys(invoices).map(function(key) { return invoices[key] })
     },
     save: function(invoice) {
-      return invoices[invoice.id] = invoice;
+      console.log('Saving', invoice.data.id, invoice);
+      return invoices[invoice.data.id] = invoice;
     },
     get: function(invoiceId) {
       return invoices[invoiceId];

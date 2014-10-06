@@ -21,6 +21,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   });
 })
 
+
+.config(function($sceDelegateProvider) {
+  $sceDelegateProvider.resourceUrlWhitelist([
+    'self',
+    'https://test.bitpay.com/**'
+  ]);
+})
+
 .config(function($stateProvider, $urlRouterProvider) {
 
   // Ionic uses AngularUI Router which uses the concept of states
@@ -73,6 +81,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         'tab-cart': {
           templateUrl: 'templates/cart-checkout.html',
           controller: 'CheckoutCtrl'
+        }
+      }
+    })
+    .state('tab.cart-web', {
+      url: '/cart/webcheckout/:invoiceId',
+      views: {
+        'tab-cart': {
+          templateUrl: 'templates/cart-web.html',
+          controller: 'WebCheckoutCtrl'
         }
       }
     })

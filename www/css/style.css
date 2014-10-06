@@ -3,3 +3,12 @@
 qrcode a {
   margin: 0 auto;
 }
+
+.web-checkout .scroll {
+  height: 100%;
+}
+
+.web-checkout iframe {
+  width: 100%;
+  height: 100%;
+}

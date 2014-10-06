@@ -16,14 +16,14 @@ angular.module('starter.controllers', [])
   $scope.webCheckout = function() {
     createInvoice(function(err, invoice) {
       if (err) throw err;
-      window.location = 'http://test.bitpay.com'; // TODO: Use SDK for Web Intent
+      $state.go('tab.cart-web', { invoiceId: invoice.data.id });
     });
   }
 
   $scope.customCheckout = function() {
     createInvoice(function(err, invoice) {
       if (err) throw err;
-      $state.go('tab.cart-checkout', { invoiceId: invoice.id });
+      $state.go('tab.cart-checkout', { invoiceId: invoice.data.id });
     });
   };
 
@@ -46,31 +46,36 @@ angular.module('starter.controllers', [])
   /**
   * Use the Bitpay SDK to create a new invoice
   */
-  function getInvoiceFromSDK(amount, currency, cb) {
-    // var bitpay = new BitPay();
-    // bitpay.createInvoice(amount, currency, cb);
+  function getInvoiceFromSDK(price, currency, cb) {
+    var Bitpay = cordova.require('com.bitpay.sdk.cordova.Bitpay');
+    var bitpay = new Bitpay({
+            host: 'test.bitpay.com',
+            port: 443,
+            token: 'KUW8nvHZpbqG8xbDvtXYVL'
+        });
 
-    // Mocking the response
-    var onSuccess = function() {
-      var invoice = {
-        id: 12,
-        status: 'new',
-        amount: amount,
-        currency: currency,
-        bitcoins: 0.34,
-        merchant: "Fake Music Store Inc.",
-        address: 'myNUd9RyL6VcLNdiTkYPDz9pQK6fo2JqYy',
-        url: 'http://test.bitpay.com'
-      };
-
-      cb(null, invoice);
-    }
-
-    setTimeout(onSuccess, 2000);
+    var params = { price: price, currency: currency };
+    bitpay.createInvoice(params, cb);
   }
 })
 
 .controller('CheckoutCtrl', function($scope, $stateParams, Invoices) {
+  $scope.invoice = Invoices.get($stateParams.invoiceId);
+  $scope.paymentUrl = $scope.invoice.data.paymentUrls.BIP72;
+
+  window.I = $scope.invoice;
+
+  console.log('Listening to:', $scope.invoice);
+  $scope.invoice.on('payment', function(e){
+    console.log('PAID', $scope.invoice);
+  });
+
+  $scope.openWallet = function() {
+    window.open($scope.paymentUrl, '_blank');
+  }
+})
+
+.controller('WebCheckoutCtrl', function($scope, $stateParams, Invoices) {
   $scope.invoice = Invoices.get($stateParams.invoiceId);
 })
 
@@ -86,7 +91,6 @@ angular.module('starter.controllers', [])
     Cart.add($scope.product);
     $state.go('tab.cart');
   };
-
 })
 
 .controller('InvoiceCtrl', function($scope, Invoices) {
