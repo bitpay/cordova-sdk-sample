@@ -1,8 +1,8 @@
 <ion-view title="Checkout">
   <ion-content class="padding">
     <h3 style="text-align: center;">{{invoice.data.btcPrice}} BTC ~= {{invoice.data.price}} {{invoice.data.currency}}</h3>
-    <a class="button button-block button-energized" ng-click="openWallet()">
-      Launch Wallet
+    <a class="button button-block button-positive" ng-click="openWallet()" ng-disabled="{{!hasWallet}}">
+      Open Wallet
     </a>
     <h4 style="text-align: center;">Payment</h4>
     <div style="text-align:center">

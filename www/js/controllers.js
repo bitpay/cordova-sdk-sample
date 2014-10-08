@@ -4,7 +4,7 @@ angular.module('starter.controllers', [])
   $scope.count = function() { return Cart.all().length; };
 })
 
-.controller('CartCtrl', function($scope, $state, $ionicLoading, Cart, Invoices) {
+.controller('CartCtrl', function($scope, $state, $ionicLoading, Cart, Invoices, BitPay) {
   $scope.items = Cart.all();
   $scope.total = Cart.total();
 
@@ -16,7 +16,7 @@ angular.module('starter.controllers', [])
   $scope.webCheckout = function() {
     createInvoice(function(err, invoice) {
       if (err) throw err;
-      $state.go('tab.cart-web', { invoiceId: invoice.data.id });
+      BitPay.openBrowser(invoice);
     });
   }
 
@@ -35,44 +35,32 @@ angular.module('starter.controllers', [])
     $ionicLoading.show({
       template: '<i class="icon ion-loading-c"></i> Creating invoice...'
     });
-    getInvoiceFromSDK(amount, "USD", function(err, invoice) {
+
+    var params = { price: amount, currency: "USD" };
+    BitPay.createInvoice(params, function(err, invoice) {
       $ionicLoading.hide();
       if (err) return cb(err);
       Invoices.save(invoice);
       cb(null, invoice);
     });
   }
-
-  /**
-  * Use the Bitpay SDK to create a new invoice
-  */
-  function getInvoiceFromSDK(price, currency, cb) {
-    var Bitpay = cordova.require('com.bitpay.sdk.cordova.Bitpay');
-    var bitpay = new Bitpay({
-            host: 'test.bitpay.com',
-            port: 443,
-            token: 'KUW8nvHZpbqG8xbDvtXYVL'
-        });
-
-    var params = { price: price, currency: currency };
-    bitpay.createInvoice(params, cb);
-  }
 })
 
-.controller('CheckoutCtrl', function($scope, $stateParams, Invoices) {
+.controller('CheckoutCtrl', function($scope, $stateParams, Invoices, BitPay) {
   $scope.invoice = Invoices.get($stateParams.invoiceId);
   $scope.paymentUrl = $scope.invoice.data.paymentUrls.BIP72;
+  $scope.hasWallet = BitPay.hasWallet;
 
   window.I = $scope.invoice;
 
+  $scope.openWallet = function() {
+    BitPay.openWallet($scope.invoice);
+  };
+
   console.log('Listening to:', $scope.invoice);
-  $scope.invoice.on('payment', function(e){
+  $scope.invoice.on('payment', function(e) {
     console.log('PAID', $scope.invoice);
   });
-
-  $scope.openWallet = function() {
-    window.open($scope.paymentUrl, '_blank');
-  }
 })
 
 .controller('WebCheckoutCtrl', function($scope, $stateParams, Invoices) {

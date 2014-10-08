@@ -1,5 +1,22 @@
 angular.module('starter.services', [])
 
+
+/**
+ * Initialize the BitPay service
+ */
+
+.factory('BitPay', function() {
+
+  var Bitpay = cordova.require('com.bitpay.sdk.cordova.Bitpay');
+  var bitpay = new Bitpay({
+    host: 'test.bitpay.com',
+    port: 443,
+    token: 'KUW8nvHZpbqG8xbDvtXYVL'
+  });
+
+  return bitpay;
+})
+
 /**
  * A simple example service that returns some data.
  */
