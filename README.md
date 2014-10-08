@@ -17,7 +17,7 @@ The project demos the integration of the [BitPay's Cordova SDK](http://github.co
     cordova platform add android
 
 ## Setup your token
-Create a new token on [My Account > API Tokens](https://test.bitpay.com/api-tokens) and use it to create a Bitpay instance. Check the example code [here]().
+Create a new token on [My Account > API Tokens](https://test.bitpay.com/api-tokens) and use it to create a Bitpay instance. Check the example code [here](www/js/services.js#L14).
 
     var bitpay = new Bitpay({
         host: 'test.bitpay.com',
