@@ -1,12 +1,72 @@
 <ion-view title="Checkout">
   <ion-content class="padding">
     <h3 style="text-align: center;">{{invoice.data.btcPrice}} BTC ~= {{invoice.data.price}} {{invoice.data.currency}}</h3>
-    <a class="button button-block button-positive" ng-click="openWallet()" ng-disabled="{{!hasWallet}}">
+
+
+    <a class="button button-block button-positive" ng-if="invoice.acceptingPayment()" ng-click="openWallet()" ng-disabled="{{!hasWallet}}">
       Open Wallet
     </a>
     <h4 style="text-align: center;">Payment</h4>
-    <div style="text-align:center">
-      <qrcode size="200" data="{{invoice.data.paymentUrls.BIP21}}"></qrcode>
+
+    <div class="item" ng-if="invoice.acceptingPayment()">
+      <qrcode
+      version="7"
+      error-correction-level="M"
+      size="240"
+      data="{{invoice.data.paymentUrls.BIP72}}"
+      >
+      </qrcode>
+
     </div>
+
+    <div class="item tcenter success" ng-if="invoice.paidFull()">
+      <i class="icon ion-checkmark-circled icon-large green"></i>
+      <h1>Paid</h1>
+    </div>
+
+    <div class="item tcenter" ng-if="invoice.paidOver()">
+      <i class="icon ion-alert-circled icon-medium"></i>
+      <h1>Overpaid</h1>
+      <p>A payment was recieved for an amount larger than your total.</p>
+    </div>
+
+    <div class="item item-text-wrap item-stable" ng-if="invoice.isExpired()">
+      <i class="icon icon-medium ion-close-circled"></i>
+      <h1>Expired</h1>
+    </div>
+
+    <div class="item item-input-inset" ng-if="invoice.acceptingPayment()">
+      <span class="input-label green">
+      Total BTC Due:
+      </span>
+      <p>{{invoice.data.btcDue}}</p>
+    </div>
+
+    <div class="item item-input-inset" ng-if="invoice.data.btcPaid">
+      <span class="input-label green">
+      BTC Paid:
+      </span>
+      <p>{{invoice.data.btcPaid}}</p>
+    </div>
+
+    <div class="item item-input-inset" ng-if="invoice.acceptingPayment()">
+      <span class="input-label">
+      Expires:
+      </span>
+      <p>{{minutesRemaining}} minutes</p>
+    </div>
+
+    <div class="item item-input-inset">
+      <span class="input-label">
+      Invoice ID:
+      </span>
+      <p>{{invoice.data.id}}</p>
+    </div>
+
+    <div class="item item-icon-right tleft alert" ng-if="invoice.paidPartial()">
+      <i class="icon icon-small ion-social-bitcoin halfgreen"></i>
+      <p>Partial payment</p>
+    </div>
+
   </ion-content>
 </ion-view>
