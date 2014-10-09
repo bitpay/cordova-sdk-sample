@@ -16,7 +16,7 @@ angular.module('starter.controllers', [])
   $scope.webCheckout = function() {
     createInvoice(function(err, invoice) {
       if (err) throw err;
-      BitPay.openBrowser(invoice);
+      invoice.openBrowser();
     });
   }
 
@@ -54,7 +54,7 @@ angular.module('starter.controllers', [])
   window.I = $scope.invoice;
 
   $scope.openWallet = function() {
-    BitPay.openWallet($scope.invoice);
+    $scope.invoice.openWallet();
   };
 
   console.log('Listening to:', $scope.invoice);
