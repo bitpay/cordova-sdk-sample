@@ -17,6 +17,11 @@ angular.module('starter.controllers', [])
     createInvoice(function(err, invoice) {
       if (err) throw err;
       invoice.openBrowser();
+      invoice.on('payment', function(e) {
+        Cart.removeAll();
+        Invoices.save(invoice);
+        $state.go('tab.cart', null,  {reload: true});
+      });
     });
   }
 
@@ -46,20 +51,19 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('CheckoutCtrl', function($scope, $stateParams, Invoices, BitPay) {
+.controller('CheckoutCtrl', function($scope, $stateParams, $state, Cart, Invoices, BitPay) {
   $scope.invoice = Invoices.get($stateParams.invoiceId);
   $scope.paymentUrl = $scope.invoice.data.paymentUrls.BIP72;
   $scope.hasWallet = BitPay.hasWallet;
-
-  window.I = $scope.invoice;
 
   $scope.openWallet = function() {
     $scope.invoice.openWallet();
   };
 
-  console.log('Listening to:', $scope.invoice);
   $scope.invoice.on('payment', function(e) {
-    console.log('PAID', $scope.invoice);
+    Cart.removeAll();
+    Invoices.save($scope.invoice);
+    $state.go('tab.cart', null,  {reload: true});
   });
 })
 
