@@ -46,7 +46,7 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('CheckoutCtrl', function($scope, $stateParams, Invoices, BitPay) {
+.controller('CheckoutCtrl', function($scope, $interval, $stateParams, Invoices, BitPay) {
   $scope.invoice = Invoices.get($stateParams.invoiceId);
   $scope.paymentUrl = $scope.invoice.data.paymentUrls.BIP72;
   $scope.hasWallet = BitPay.hasWallet;
@@ -57,9 +57,25 @@ angular.module('starter.controllers', [])
     $scope.invoice.openWallet();
   };
 
+  var timer;
+  var millis = $scope.invoice.timeRemaining();
+  $scope.minutesRemaining = Math.round(millis/1000/60);
+
+  timer = $interval(function(){
+    millis = $scope.invoice.timeRemaining();
+    if ( millis ) {
+      $scope.minutesRemaining = Math.round(millis/1000/60);
+    }
+  }, 25000)
+
+  $scope.$on('$destroy', function() {
+    $interval.cancel(timer);
+  });
+
   console.log('Listening to:', $scope.invoice);
   $scope.invoice.on('payment', function(e) {
     console.log('PAID', $scope.invoice);
+    $scope.$digest();
   });
 })
 
