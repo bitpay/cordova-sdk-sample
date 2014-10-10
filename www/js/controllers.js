@@ -51,7 +51,7 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('CheckoutCtrl', function($scope, $interval, $stateParams, Invoices, BitPay) {
+.controller('CheckoutCtrl', function($scope, $interval, $stateParams, Cart, Invoices, BitPay) {
   $scope.invoice = Invoices.get($stateParams.invoiceId);
   $scope.paymentUrl = $scope.invoice.data.paymentUrls.BIP72;
   $scope.hasWallet = BitPay.hasWallet;
