@@ -8,17 +8,6 @@
     </a>
     <h4 style="text-align: center;">Payment</h4>
 
-    <div class="item" ng-if="invoice.acceptingPayment()" style="text-align:center;">
-      <qrcode
-      version="7"
-      error-correction-level="M"
-      size="270"
-      data="{{invoice.data.paymentUrls.BIP72}}"
-      >
-      </qrcode>
-
-    </div>
-
     <div class="item tcenter success" ng-if="invoice.paidFull()">
       <i class="icon ion-checkmark-circled icon-large green"></i>
       <h1>Paid</h1>
