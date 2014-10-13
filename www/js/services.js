@@ -11,7 +11,7 @@ angular.module('starter.services', [])
   var bitpay = new Bitpay({
     host: 'test.bitpay.com',
     port: 443,
-    token: 'KUW8nvHZpbqG8xbDvtXYVL'
+    token: '2dQQcdssUYG8LUrs9Eb2m2cnsk8z9j9dtWR4vcmaptAX'
   });
 
   return bitpay;
