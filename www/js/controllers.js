@@ -7,23 +7,12 @@ angular.module('starter.controllers', [])
 .controller('CartCtrl', function($scope, $state, $ionicLoading, Cart, Invoices, BitPay) {
   $scope.items = Cart.all();
   $scope.total = Cart.total();
+  $scope.hasWallet = BitPay.hasWallet;
 
   $scope.removeAll = function() {
     Cart.removeAll();
     $state.go('tab.store');
   };
-
-  $scope.webCheckout = function() {
-    createInvoice(function(err, invoice) {
-      if (err) throw err;
-      invoice.openBrowser();
-      invoice.on('payment', function(e) {
-        Cart.removeAll();
-        Invoices.save(invoice);
-        $state.go('tab.cart', null,  {reload: true});
-      });
-    });
-  }
 
   $scope.customCheckout = function() {
     createInvoice(function(err, invoice) {
@@ -51,10 +40,12 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('CheckoutCtrl', function($scope, $interval, $stateParams, Invoices, BitPay) {
+.controller('CheckoutCtrl', function($scope, $interval, $stateParams, Cart, Invoices, BitPay) {
   $scope.invoice = Invoices.get($stateParams.invoiceId);
   $scope.paymentUrl = $scope.invoice.data.paymentUrls.BIP72;
   $scope.hasWallet = BitPay.hasWallet;
+
+  $scope.invoice.openWallet();
 
   $scope.openWallet = function() {
     $scope.invoice.openWallet();
@@ -83,17 +74,14 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('WebCheckoutCtrl', function($scope, $stateParams, Invoices) {
-  $scope.invoice = Invoices.get($stateParams.invoiceId);
-})
-
 .controller('StoreCtrl', function($scope, Products) {
   $scope.products = Products.all();
 })
 
-.controller('StoreDetailCtrl', function($scope, $stateParams, $state, Products, Cart) {
+.controller('StoreDetailCtrl', function($scope, $stateParams, $state, Products, Cart, BitPay) {
   $scope.product = Products.get($stateParams.productId);
   $scope.isIncluded = !!Cart.get($stateParams.productId);
+  $scope.hasWallet = BitPay.hasWallet;
 
   $scope.addToCart = function() {
     Cart.add($scope.product);
